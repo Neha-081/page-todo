@@ -2,6 +2,7 @@ import React, {  useState,useEffect } from "react";
 import TodoInput from "./TodoInput";
 import { v4 as uuid } from "uuid";
 import TodoList from "./TodoList";
+import { JSON_API } from "../helpers/api";
 import '../App.css'
 
 
@@ -13,7 +14,7 @@ function Todo() {
 
 //add todo
   const handleAddTodo=()=>{
-      fetch("http://localhost:3001/todos",{
+      fetch(`${JSON_API}/todos`,{
           method:"POST",
           body:JSON.stringify({
               title:text,
@@ -31,7 +32,7 @@ function Todo() {
   }
 
   const getTodos=()=>{
-    fetch(`http://localhost:3001/todos?_page=${page}&_limit=3`)
+    fetch(`${JSON_API}/todos?_page=${page}&_limit=3`)
     .then((d)=>d.json())
     .then(setTodos).then(()=>{
         setLoading(false)
@@ -41,7 +42,7 @@ function Todo() {
 //delete todo
 
 const deleteMe = (id) => {
-    fetch(`http://localhost:3001/todos/${id}`, {
+    fetch(`${JSON_API}/todos/${id}`, {
       method: "DELETE",
     }).then(res => {
       getTodos()}).catch((err)=> console.log(err,'delete ni hua'))
@@ -50,7 +51,7 @@ const deleteMe = (id) => {
 
   //update
   const toggleList = (id) => {
-    fetch(`http://localhost:3001/todos/${id}`, {
+    fetch(`${JSON_API}/todos/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         status:true
